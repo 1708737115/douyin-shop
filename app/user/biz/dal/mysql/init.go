@@ -1,6 +1,7 @@
 package mysql
 
 import (
+	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/douyin-shop/douyin-shop/app/user/conf"
 
 	"gorm.io/driver/mysql"
@@ -19,6 +20,12 @@ func Init() {
 			SkipDefaultTransaction: true,
 		},
 	)
+
+	if DB == nil {
+		panic("failed to connect database")
+	} else {
+		klog.Debug(DB)
+	}
 	if err != nil {
 		panic(err)
 	}

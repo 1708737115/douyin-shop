@@ -4,7 +4,6 @@ import (
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/douyin-shop/douyin-shop/app/auth/biz/dal/mysql"
 	"github.com/douyin-shop/douyin-shop/app/user/biz/utils/code"
-	"github.com/douyin-shop/douyin-shop/app/user/code"
 	"github.com/douyin-shop/douyin-shop/app/user/conf"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -20,6 +19,7 @@ type User struct{
 // 检查用户是否存在
 func CheckUserExist(email string) (int,*User) {
 	var user User
+	klog.Debug(mysql.DB)
 	mysql.DB.Where("email = ?", email).First(&user)
 	if(user.ID!=0){
 		return code.UserExist,&user

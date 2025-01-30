@@ -1,16 +1,18 @@
 package main
 
 import (
-	"github.com/douyin-shop/douyin-shop/common/nacos"
-	"gopkg.in/natefinch/lumberjack.v2"
+	// "github.com/douyin-shop/douyin-shop/common/nacos"
 	"io"
 	"net"
 	"os"
 	"time"
 
+	"gopkg.in/natefinch/lumberjack.v2"
+
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
+	"github.com/douyin-shop/douyin-shop/app/user/biz/dal"
 	"github.com/douyin-shop/douyin-shop/app/user/conf"
 	"github.com/douyin-shop/douyin-shop/app/user/kitex_gen/user/userservice"
 	kitexlogrus "github.com/kitex-contrib/obs-opentelemetry/logging/logrus"
@@ -41,10 +43,12 @@ func kitexInit() (opts []server.Option) {
 		ServiceName: conf.GetConf().Kitex.Service,
 	}))
 
-	// nacos 注册中心
-	r := nacos.GetNacosRegistry()
-	opts = append(opts, server.WithRegistry(r))
+	// // nacos 注册中心
+	// r := nacos.GetNacosRegistry()
+	// opts = append(opts, server.WithRegistry(r))
 
+	// init dal
+	dal.Init()
 	// klog
 	logger := kitexlogrus.NewLogger()
 	klog.SetLogger(logger)
